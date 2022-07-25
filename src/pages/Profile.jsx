@@ -2,39 +2,27 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Group from "./Group";
+import { Link } from "react-router-dom";
 
 function Profile({ orbis }) {
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState();
   const [userPosted, setUserPosted] = useState();
-  const [groups, setGroups] = useState();
+  const [userGroups, setUserGroups] = useState();
   const { did } = useParams();
 
   useEffect(() => {
     loadProfile(did);
+    loadUserGroup(userGroups);
+    console.log(userGroups);
   }, [did]);
-
-  useEffect(() => {
-    console.log(profile);
-  }, [profile]);
-
-  useEffect(() => {
-    loadGroup(did);
-    loadGroup(groups)
-  }, [did]);
-
-  useEffect(() => {
-    console.log(groups);
-  }, [groups]);
 
   async function loadProfile(did) {
     setLoading(true);
     let { data, error, status } = await orbis.getProfile(did);
-    // let { data:_data, _error } = await orbis.getProfileGroups(did);
 
     if (data) {
       setProfile(data);
-      console.log(data);
       loadUserPost(data.did);
       setLoading(false);
     }
@@ -55,23 +43,17 @@ function Profile({ orbis }) {
     }
   }
 
-  async function loadGroup() {
+  async function loadUserGroup() {
     setLoading(true);
     let { data, error } = await orbis.getProfileGroups(did);
 
     if (data) {
-      setGroups(data);
-      console.log(groups);
+      setUserGroups(data);
       setLoading(false);
+      console.log(data);
     }
     if (loading) {
       return <p>Loading groups...</p>;
-    }
-
-    if (data.length > 0) {
-      return data.map((group) => {
-        return console.log(group);
-      });
     }
   }
 
@@ -83,9 +65,22 @@ function Profile({ orbis }) {
   if (loading) {
     return <p>Loading posts...</p>;
   }
-  if (profile) {
+
+  if (profile && userGroups) {
     return (
       <>
+        <div>
+          {userGroups && userGroups.length ? (
+            userGroups.map((item, index) => (
+              <div key={index}>
+                group successfully loaded
+                {/* <div>{parseDate(item.timestamp)}</div> */}
+              </div>
+            ))
+          ) : (
+            <p>No Group Joined by this user.</p>
+          )}
+        </div>
         <div>{profile.did}</div>
         <img className="pfp" src={profile.details?.profile?.pfp}></img>
         <div>

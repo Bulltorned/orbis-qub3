@@ -12,21 +12,38 @@ export default function Home() {
   const [user, setUser] = useState();
   const [userPfp, setUserPfp] = useState();
 
+  useEffect(() => {
+    async function checkConnection() {
+      let res = await orbis.isConnected();
+  
+      if (res.status == 200) {
+        setUser(res.did);
+        setUserPfp(res.details?.profile?.pfp)
+      }
+      else {
+        console.log("account is not connected", res);
+        alert("wallet is not connected")
+      }
+    }
+    checkConnection();
+  }, []);
 
   async function connect() {
     let res = await orbis.connect();
-    let _res = await orbis.isConnected();
     
 
     if (res.status == 200) {
       setUser(res.did);
-      setUserPfp(_res.details.profile.pfp);
+      setUserPfp(res.details?.profile?.pfp)
+      
+      
 
     } else {
       console.log("Error connecting to Ceramic: ", res);
       alert("Error connecting to Ceramic.");
     }
   }
+  
 
   return (
     <>
@@ -50,7 +67,7 @@ export default function Home() {
                 <img className="pfp" src={userPfp}></img>
                 : <Blockie seed={user} />}
               </Link>
-              <p>Connected with: {user}</p>
+              <p>{user}</p>
             </div>
             <Share orbis={orbis} />
             <div className="posts">

@@ -1,38 +1,33 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from "react-router-dom";
 
-function Group({ orbis }) {
+
+
+const Group = ({orbis}) => {
   const [loading, setLoading] = useState(false);
-  const [groups, setGroups] = useState();
-  const { did } = useParams();
+  const [group, setGroup] = useState()
+  const {group_id} = useParams();
 
   useEffect(() => {
-    loadGroup(did);
-  }, [did]);
+    getGroup();
+  },[group_id])
 
-  useEffect(() => {
-    console.log(groups);
-  }, [groups]);
-
-  async function loadGroup() {
+  async function getGroup() {
     setLoading(true);
-    let { data, error } = await orbis.getProfileGroups(did);
+    let { data, error } = await orbis.getGroup(group_id);
 
     if (data) {
-      setGroups(data);
+      setGroup(data)
+      setLoading(false)
       console.log(data);
-      setLoading(false);
-    }
-    if (loading) {
-      return <p>Loading groups...</p>;
     }
 
-    // if (groups.length > 0) {
-    //   return groups.map((group) => {
-    //     return <div>{group.group_detail.name}</div>;
-    //   });
-    // }
   }
+
+  return (
+    <div>{group && group.content.name}</div>
+  )
 }
-export default Group;
+
+export default Group

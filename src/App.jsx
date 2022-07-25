@@ -1,6 +1,8 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
+import Rightbar from "./components/Rightbar";
+import Leftbar from "./components/Leftbar";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Group from "./pages/Group";
@@ -12,15 +14,21 @@ function App() {
   // const [count, setCount] = useState(0);
 
   return (
-    <>
-      
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile/:did" element={<Profile orbis={orbis} />} />
-        <Route path="/group/:did" element={<Group orbis={orbis}/>} />
-      </Routes>
-    </>
+    <div className="page ">
+      <div>
+        <Leftbar orbis={orbis}/>
+      </div>
+      <div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile/:did" element={<Profile orbis={orbis} />} />
+          <Route path="/group/:group_id" element={<Group orbis={orbis} />} />
+        </Routes>
+      </div>
+      <div>
+        <Rightbar />
+      </div>
+    </div>
   );
 }
 
