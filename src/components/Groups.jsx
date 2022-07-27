@@ -26,19 +26,19 @@ const Group = ({ orbis }) => {
     }
   }
   if (loading) {
-    return <p>Loading User Group</p>;
+    return <p>...</p>;
   }
 
   return (
-    <div>
+    <div className="border-solid ">
       {userGroups && userGroups.length ? (
         userGroups.map((item, index) => (
           
-            <Link key={index} to={`group/${item.group_id}`}>
+            <Link key={index} to={`group/${item.group_id}`} className="p-4 place-items-center">
               {item.group_details.pfp ? (
-                <img alt="" src={item.group_details.pfp} className="pfp"></img>
+                <img alt="" src={item.group_details.pfp} className="rounded-full max-h-10 place-items-center"></img>
               ) : (
-                <img className="pfp" src={defaultImg}></img>
+                <img className="rounded-full max-h-10" src={defaultImg}></img>
               )}
               
             </Link>

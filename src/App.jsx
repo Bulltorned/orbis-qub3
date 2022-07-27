@@ -1,28 +1,34 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
+// import "./App.css";
 import Rightbar from "./components/Rightbar";
 import Leftbar from "./components/Leftbar";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+
 import Group from "./pages/Group";
+import GroupChannel from "./components/GroupChannel";
 import { Routes, Route, Link } from "react-router-dom";
 import { Orbis } from "@orbisclub/orbis-sdk";
 let orbis = new Orbis();
 
 function App() {
-  // const [count, setCount] = useState(0);
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="page">
-      <div>
-        <Leftbar orbis={orbis}/>
+    <div className="flex">
+      <div className="">
+        <Leftbar setOpen={setOpen} open={open} orbis={orbis} />
       </div>
-      <div>
+
+      <div className={`${open ? "left-52" : "left-0" } absolute transition-all duration-500`}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home orbis={orbis} className="" />} />
           <Route path="/profile/:did" element={<Profile orbis={orbis} />} />
           <Route path="/group/:group_id" element={<Group orbis={orbis} />} />
+          <Route
+            path="/group/:group_id/channel/:channel_id"
+            element={<GroupChannel orbis={orbis} />}
+          />
         </Routes>
       </div>
       <div>
