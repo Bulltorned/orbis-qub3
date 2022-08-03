@@ -14,7 +14,6 @@ function Profile({ orbis }) {
   useEffect(() => {
     loadProfile(did);
     loadUserGroup(userGroups);
-    console.log(userGroups);
   }, [did]);
 
   async function loadProfile(did) {
@@ -50,7 +49,6 @@ function Profile({ orbis }) {
     if (data) {
       setUserGroups(data);
       setLoading(false);
-      console.log(data);
     }
     if (loading) {
       return <p>Loading groups...</p>;
@@ -68,22 +66,30 @@ function Profile({ orbis }) {
 
   if (profile && userGroups) {
     return (
-      <>
-        <div>
-          {userGroups && userGroups.length ? (
-            userGroups.map((item, index) => (
-              <div key={index}>
-                group successfully loaded
-                {/* <div>{parseDate(item.timestamp)}</div> */}
-              </div>
-            ))
-          ) : (
-            <p>No Group Joined by this user.</p>
-          )}
+      <div className="flex relative w-full">
+        <div className="profile-card border h-[50vh] w-full max-w-[300px] m-2 mr-5 fixed">
+          {console.log(profile)}
+          <img className="pfp" src={profile.details?.profile?.pfp}></img>
+          <div>{profile.details.profile?.username}</div>
+          <div>
+            {profile.details.metadata?.ensName
+              ? profile.details.metadata?.ensName
+              : profile.details.metadata?.address}
+          </div>
+          <div>{profile.details.profile?.description}</div>
+          <div className="flex">
+            <div className="">
+              <div className="font-bold">Followers</div>
+              <div>{profile.count_followers} </div>
+            </div>
+            <div>
+              <div className="font-bold">Following</div>
+              <div>{profile.count_following} </div>
+            </div>
+          </div>
+          <button className="border bg-white rounded-md border-black p-2">Update Profile</button>
         </div>
-        <div>{profile.did}</div>
-        <img className="pfp" src={profile.details?.profile?.pfp}></img>
-        <div>
+        <div className="ml-[340px] m-2 w-[80vw] border">
           {userPosted && userPosted.length ? (
             userPosted.map((item, index) => (
               <div key={index}>
@@ -95,7 +101,7 @@ function Profile({ orbis }) {
             <p>No posts shared in this context.</p>
           )}
         </div>
-      </>
+      </div>
     );
   } else {
     return <p>No posts shared in this context.</p>;

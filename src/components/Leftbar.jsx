@@ -30,7 +30,7 @@ const Leftbar = ({ orbis, open, setOpen }) => {
         setUser(res.details.profile.username);
         console.log(res);
         setUserPfp(res.details?.profile?.pfp);
-        setUserDid(res.did)
+        setUserDid(res.did);
       } else {
         console.log("account is not connected", res);
         alert("wallet is not connected");
@@ -55,7 +55,7 @@ const Leftbar = ({ orbis, open, setOpen }) => {
     <div
       className={` ${
         open ? "w-72" : "w-20"
-      } flex flex-col flex-wrap duration-500 h-screen p-2 pt-8 bg-dark-purple  z-50 fixed`}
+      } flex flex-col flex-wrap duration-500 h-[98vh] p-2 pt-8 bg-dark-purple  z-50 fixed rounded-md m-2`}
     >
       <img
         src={Control}
@@ -66,12 +66,12 @@ const Leftbar = ({ orbis, open, setOpen }) => {
         onClick={() => setOpen(!open)}
       />
       <Link to="/">
-        <div className="flex gap-x-4 items-center cursor-pointer">
+        <div className="flex gap-x-4 items-center cursor-pointer hover:bg-light-white hover:rounded-md">
           <img
             src={Logo}
             className={`cursor-pointer duration-500 w-16 ${
               !open && "rotate-[360deg]"
-            }`}
+            } `}
           ></img>
           <h1
             className={`text-white origin-left font-medium text-xl duration-300 ${
@@ -85,28 +85,30 @@ const Leftbar = ({ orbis, open, setOpen }) => {
       <ul className="pt-6">
         {userGroups && userGroups.length
           ? userGroups.map((item, index) => (
-              <li >
+              <li className={`${!open && "max-w-[60px]"}`}>
                 <Link key={index} to={`group/${item.group_id}`}>
-                  <div className="text-gray-300 text-sm flex max-w-full items-center gap-x-4 cursor-pointer p-2 hover:bg-light-white hover:rounded-md">
-                  {item.group_details.pfp ? (
-                    <img
-                      alt=""
-                      src={item.group_details.pfp}
-                      className="rounded-full h-10 place-items-center"
-                    ></img>
-                  ) : (
-                    <img
-                      className="rounded-full max-h-10"
-                      src={defaultImg}
-                    ></img>
-                  )}
-                  <span
-                    className={`duration-300 whitespace-nowrap origin-left ${
-                      !open && "scale-0"
-                    }`}
+                  <div
+                    className={`text-gray-300 text-sm flex items-center max-w-full gap-x-4 cursor-pointer p-2 hover:bg-light-white hover:rounded-md`}
                   >
-                    {item.group_details.name}
-                  </span>
+                    {item.group_details.pfp ? (
+                      <img
+                        alt=""
+                        src={item.group_details.pfp}
+                        className="rounded-full h-10 place-items-center"
+                      ></img>
+                    ) : (
+                      <img
+                        className="rounded-full max-h-10"
+                        src={defaultImg}
+                      ></img>
+                    )}
+                    <span
+                      className={`duration-300 whitespace-nowrap origin-left ${
+                        !open && "scale-0"
+                      }`}
+                    >
+                      {item.group_details.name}
+                    </span>
                   </div>
                 </Link>
               </li>
@@ -116,34 +118,36 @@ const Leftbar = ({ orbis, open, setOpen }) => {
         {/* <li><Groups orbis={orbis} /></li> */}
       </ul>
 
-      <div className="mt-auto">
+      <div className={`${!open && "max-w-[60px]"} mt-auto`}>
         <Link to={`/profile/${userDid}`}>
           <div className="text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2  hover:bg-light-white hover:rounded-md">
-          <img
-            alt=""
-            src={userPfp}
-            className="rounded-full h-10 place-items-center aspect-square object-cover"
-          ></img>
+            <img
+              alt=""
+              src={userPfp}
+              className="rounded-full h-10 place-items-center aspect-square object-cover"
+            ></img>
 
-          <span
-            className={`duration-300 whitespace-nowrap origin-left ${
-              !open && "scale-0"
-            }`}
-          >
-            {user}
-          </span>
+            <span
+              className={`duration-300 whitespace-nowrap origin-left ${
+                !open && "scale-0"
+              }`}
+            >
+              {user}
+            </span>
           </div>
         </Link>
         <Link to="/">
-        <div className="text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2  hover:bg-light-white hover:rounded-md">
-          <BiCog size={40} /> 
-          <span
-            className={`duration-300 whitespace-nowrap origin-left ${
-              !open && "scale-0"
-            }`}
-          > Setting
+          <BiCog size={40} />
+          <div className="text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2  hover:bg-light-white hover:rounded-md">
+            <span
+              className={`duration-300 whitespace-nowrap origin-left ${
+                !open && "scale-0"
+              }`}
+            >
+              {" "}
+              Setting
             </span>
-        </div>
+          </div>
         </Link>
       </div>
 

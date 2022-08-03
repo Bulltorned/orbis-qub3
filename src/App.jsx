@@ -20,7 +20,7 @@ function App() {
         <Leftbar setOpen={setOpen} open={open} orbis={orbis} />
       </div>
 
-      <div className={`${open ? "left-52" : "left-0" } absolute transition-all duration-500`}>
+      <div className={`${open ? "left-52" : "left-0" } ml-[100px] absolute w-[50vw] h-[98vh] transition-all duration-500`}>
         <Routes>
           <Route path="/" element={<Home orbis={orbis} className="" />} />
           <Route path="/profile/:did" element={<Profile orbis={orbis} />} />
